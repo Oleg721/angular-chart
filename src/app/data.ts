@@ -1,4 +1,4 @@
-export var multi = [
+export var multi2 = [
   {
     "name": "Germany",
     "series": [

@@ -1,1 +1,22 @@
-<p>chart works!</p>
+<ngx-charts-line-chart
+  [view]="view"
+  [scheme]="colorScheme"
+  [legend]="legend"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [xAxis]="xAxis"
+  [yAxis]="yAxis"
+  [xAxisLabel]="xAxisLabel"
+  [yAxisLabel]="yAxisLabel"
+  [autoScale]="autoScale"
+  [timeline]="timeline"
+  [results]="multi2"
+[maxXAxisTickLength]="30"
+  [xAxisTickFormatting] = "xAxisTickFormatting"
+[curve] = "curve"
+
+  (select)="onSelect($event)"
+  (activate)="onActivate($event)"
+  (deactivate)="onDeactivate($event)"
+>
+</ngx-charts-line-chart>
