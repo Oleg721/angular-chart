@@ -1,0 +1,3 @@
+.ttt ::ng-deep .ngx-charts .gridline-path {
+  stroke: red !important;
+}

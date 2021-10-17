@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { multi2 } from '../data';
 import {data} from '../data2'
 import * as shape from 'd3-shape';
@@ -10,11 +10,9 @@ import * as shape from 'd3-shape';
 })
 export class ChartComponent {
 
+  @Input() data:{name: string, series:{}}[] = [];
 
-  data:Array<object> = [];
-  multi2!: any[];
-
-  view: any = [2100, 700];
+  view: any = [1300, 700];
   legend: boolean = true;
   showLabels: boolean = true;
   animations: boolean = true;
@@ -22,47 +20,24 @@ export class ChartComponent {
   yAxis: boolean = true;
   showYAxisLabel: boolean = true;
   showXAxisLabel: boolean = true;
-  xAxisLabel: string = 'Year';
-  yAxisLabel: string = 'Population';
+  xAxisLabel: string = 'Time';
+  yAxisLabel: string = 'Cost, USD';
   timeline: boolean = true;
   autoScale: boolean = true;
-
-  curve = shape.curveCardinal;
+  curve = shape.curveBasis;
 
   xAxisTickFormatting(val: string){
-   // const [, ...rest] = val.match(/^(....-..-..).+:(..:..)/) || []
     const date = new Date(val);
     const YyyyMmDd: string = date.toLocaleDateString();
     const HhMm: string = date.toLocaleTimeString();
-
-
     return YyyyMmDd + ":" + HhMm;
   }
 
-
   colorScheme: any = {
     domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
-  };
+  }
 
   constructor() {
-
-    const convertData:{}[] = ((name: string = 'Bitok')=>{
-
-      return [{"name" : name,
-        "series": data.map(({ date, priceUsd, time}:
-                               {date: string, priceUsd: string, time: number})=>{
-
-          return {
-            "name" : time,
-            "value" : Number.parseFloat(priceUsd)
-          }
-        })}]
-    })()
-
-    console.log(JSON.stringify(convertData));
-
-    this.multi2 = convertData;
-
   }
 
   onSelect(data: any): void {
@@ -76,5 +51,4 @@ export class ChartComponent {
   onDeactivate(data: any): void {
     console.log('Deactivate', JSON.parse(JSON.stringify(data)));
   }
-
 }
