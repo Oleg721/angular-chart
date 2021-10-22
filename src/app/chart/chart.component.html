@@ -16,6 +16,7 @@
     [results]="data"
     [maxXAxisTickLength]="30"
     [xAxisTickFormatting] = "xAxisTickFormatting"
+    [activeEntries]="activeEntries"
 
     (select)="onSelect($event)"
     (activate)="onActivate($event)"
@@ -23,4 +24,3 @@
   >
   </ngx-charts-line-chart>
 
-  <!--    [curve]="curve"-->

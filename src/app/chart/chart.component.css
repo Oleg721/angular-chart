@@ -1,3 +1,6 @@
 .ttt ::ng-deep .ngx-charts .gridline-path {
   stroke: red !important;
 }
+.btn-upl{
+  margin: 2rem;
+}

@@ -1,0 +1,18 @@
+<h1>
+  UPLOAD FILE
+</h1>
+<!-- <div class="form-group">
+    <label for="file">Choose File</label>
+    <input type="file"
+           id="file"
+
+           (change)="handleFile($event)"
+           >
+</div> -->
+
+<div >
+<h5>test</h5>
+  <button mat-button color="primary" (click)="fileUpload.click()">choose file</button>  
+  <button mat-button color="warn" (click)="onClick()">Upload</button> 
+  <input  type="file" #fileUpload id="fileUpload" name="fileUpload" multiple="multiple"  />
+</div>

@@ -2,6 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { multi2 } from '../data';
 import {data} from '../data2'
 import * as shape from 'd3-shape';
+import { ActivatedRoute } from '@angular/router';
+import { DataService } from '../services/data.service';
+import { JSONConverterService } from '../services/json-converter.service';
 
 @Component({
   selector: 'app-chart',
@@ -10,9 +13,15 @@ import * as shape from 'd3-shape';
 })
 export class ChartComponent {
 
-  @Input() data:{name: string, series:{}}[] = [];
 
-  view: any = [1300, 700];
+
+  @Input() 
+
+  data:{name: string, series:{}}[] = [{name: '', series: [{name:'', value: 0}]}];
+  startDate: number = new Date(`10.18.2021 13:13:54`).getTime();
+  endDate: number = Date.now();
+
+  view: any = [1700, 700];
   legend: boolean = true;
   showLabels: boolean = true;
   animations: boolean = true;
@@ -24,6 +33,7 @@ export class ChartComponent {
   yAxisLabel: string = 'Cost, USD';
   timeline: boolean = true;
   autoScale: boolean = true;
+  activeEntries = [{test: `hello!`}]
   curve = shape.curveBasis;
 
   xAxisTickFormatting(val: string){
@@ -33,11 +43,24 @@ export class ChartComponent {
     return YyyyMmDd + ":" + HhMm;
   }
 
+  OnToUpload() {
+  }
+
   colorScheme: any = {
     domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
   }
 
-  constructor() {
+  constructor(private route: ActivatedRoute,
+    private dataService: DataService,
+    private jsonConverterService: JSONConverterService) {
+/*     dataService.initServerData("bitcoin", "m1", this.startDate, this.endDate)
+    .subscribe(
+      (value: any): void => {
+        ////this.data = this.jsonConverterService.convert(value.data,'bitcoin');
+        this.data = this.jsonConverterService.convertSererDataToChartData(value,"bitcoin");
+      },
+      error => console.log(error),
+      () => console.log(`CLOSED!`)); */
   }
 
   onSelect(data: any): void {
