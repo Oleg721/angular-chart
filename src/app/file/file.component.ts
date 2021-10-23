@@ -4,6 +4,7 @@ import {UploadService} from '../services/upload.service.ts.service'
 import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';  
 import { catchError, map } from 'rxjs/operators';  
+import {IUploadFile} from '../interfaces/upload-Files'
 
 @Component({
   selector: 'app-file',
@@ -14,7 +15,7 @@ import { catchError, map } from 'rxjs/operators';
 export class FileComponent implements OnInit {
   
   @ViewChild("fileUpload", {static: false}) fileUpload:ElementRef | undefined ;
-  files: fil[]  = [];  
+  files: IUploadFile[]  = [];  
 
   
   form?:FormGroup;
@@ -22,7 +23,25 @@ export class FileComponent implements OnInit {
 
   constructor(private uploadService: UploadService) { }
 
-  handleFile(event: any) {
+  onChange({target: {files}}: any){
+    console.log(`ON_CHANGE`);//////////////////
+    this.files = [...files].map((file: File):IUploadFile => {
+      return {
+        data: file,
+        inProgress: false,
+        progress: 0
+      }
+    });
+  }
+
+  onClick(){
+    console.log(`ON_CLICK`);/////////////////////
+    console.log(this.files[0].data);
+    this.uploadService.upload(this.files);
+  }
+////////////////////////////////////////
+     /* 
+handleFile(event: any) {
     const formData: FormData = new FormData();
     console.log(event.target.files)
 
@@ -32,54 +51,12 @@ export class FileComponent implements OnInit {
        // formData.append(file.name ,file);
       console.log(formData)
     }) 
-/* 
-     this.form?.patchValue({file:formData});
-    this.form?.updateValueAndValidity();  */
-} 
+
+} */
 
 
 
-  private uploadFiles() {  
-/*     console.log(`uploadFiles`);
-    if(this.fileUpload){
-      this.fileUpload.nativeElement.value = '';  
-      this.files.forEach(file => {  
-        this.uploadFile(file);  
-      });
-    } */
-  }
 
-
-  uploadFile(file: fil) {  
-    const formData = new FormData();  
-    formData.append('file', file.data);  
-    file.inProgress = true;  
-    console.log(`uploadFile_ONE`);
-    this.uploadService.upload(formData)
-    .pipe(  
-       map(event => {  
-/*         switch (event.type) {  
-          case HttpEventType.UploadProgress:  
-          if(event.total){
-            file.progress = Math.round(event.loaded * 100  / event.total);  
-            break;  
-          }
-          case HttpEventType.Response:  
-            return event;  
-        }   */
-        return event;  
-      }),   
-      catchError((error: HttpErrorResponse) => {  
-        file.inProgress = false;  
-        return of(`${file.data.name} upload failed.`);  
-      }))
-      .subscribe((event: any) => {  
-        if (typeof (event) === 'object') {  
-          console.log(event.body);  
-          console.log(event);  
-        }  
-      });  
-  }
 /* 
   onChange(){
 
@@ -94,32 +71,12 @@ export class FileComponent implements OnInit {
   } */
 
 
-onClick() {  
-  console.log(this.files);
-  this.uploadFile(this.files[0]); 
-/* 
-  const fileUpload = this.fileUpload?.nativeElement;
-  fileUpload.onchange = () => {  
-  for (let index = 0; index < fileUpload.files.length; index++)  
-  {  
-   const file = fileUpload.files[index];  
-   this.files.push({ data: file, inProgress: false, progress: 0});  
-  }  
-    this.uploadFiles();  
-  };  
-  fileUpload.click();    */
-}
-
 
 ngOnInit(){
    }
 }
 
-interface fil{
-  data: any,
-  inProgress: boolean,
-  progress: number
-}
+
 
 
 

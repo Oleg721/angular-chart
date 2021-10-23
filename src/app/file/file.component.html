@@ -12,7 +12,11 @@
 
 <div >
 <h5>test</h5>
-  <button mat-button color="primary" (click)="fileUpload.click()">choose file</button>  
+ <!--  <button mat-button color="primary" (click)="fileUpload.click()">choose file</button> -->  
   <button mat-button color="warn" (click)="onClick()">Upload</button> 
-  <input  type="file" #fileUpload id="fileUpload" name="fileUpload" multiple="multiple"  />
+  <input  
+      type="file"
+      #fileUpload name="fileUpload" 
+      multiple="multiple" 
+      (change)="onChange($event)" />
 </div>
