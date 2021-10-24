@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FileComponent } from './file/file.component';
 import { RouterModule } from '@angular/router';
 import { TopBarComponent } from './top-bar/top-bar.component';
+import { UploadFilesViewComponent } from './upload-files-view/upload-files-view.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { TopBarComponent } from './top-bar/top-bar.component';
     AppComponent,
     ChartComponent,
       FileComponent,
-      TopBarComponent
+      TopBarComponent,
+      UploadFilesViewComponent
    ],
   imports: [
     BrowserModule,

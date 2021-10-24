@@ -1,0 +1,12 @@
+.load-bar-wrapper{
+  width: 21rem;
+  height: 2rem;
+  border: solid 1px black;
+  border-radius: 7px;
+}
+
+.load-bar-inner{
+background-color: #609943;
+  height: 100%;
+}
+

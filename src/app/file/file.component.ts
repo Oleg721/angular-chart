@@ -2,8 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {UploadService} from '../services/upload.service.ts.service'
 import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
-import { of } from 'rxjs';  
-import { catchError, map } from 'rxjs/operators';  
+import { of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import {IUploadFile} from '../interfaces/upload-Files'
 
 @Component({
@@ -13,62 +13,51 @@ import {IUploadFile} from '../interfaces/upload-Files'
 })
 
 export class FileComponent implements OnInit {
-  
-  @ViewChild("fileUpload", {static: false}) fileUpload:ElementRef | undefined ;
-  files: IUploadFile[]  = [];  
 
-  
-  form?:FormGroup;
+  @ViewChild("fileUpload", {static: false}) fileUpload:ElementRef | undefined ;
+  files: IUploadFile[]  = [];
+
+
+
   formData: FormData = new FormData();
+  loadData: {type: number, loaded?: number, total?: number } = {type: -1}
+  isFileChecked: boolean =false;
+  loadStyle:{} = {width: "0%"};
 
   constructor(private uploadService: UploadService) { }
 
   onChange({target: {files}}: any){
-    console.log(`ON_CHANGE`);//////////////////
+
     this.files = [...files].map((file: File):IUploadFile => {
       return {
         data: file,
         inProgress: false,
         progress: 0
-      }
-    });
+      }});
+    this.isFileChecked = true
   }
 
   onClick(){
-    console.log(`ON_CLICK`);/////////////////////
-    console.log(this.files[0].data);
-    this.uploadService.upload(this.files);
+    this.uploadService.upload(this.files)
+      .subscribe((e)=>{
+          switch (e.type) {
+            case 1 : {
+              const loaded = e.loaded || 0;
+              const total =  e.total || 0;
+              const loadBarValue = loaded / total * 100;
+              this.loadStyle = {width: loadBarValue + "%"}
+              break
+            }
+            case 2 : {
+              this.isFileChecked = false;
+              this.files = [];
+              this.loadStyle = {width: "0%"};
+              break
+            }
+          }
+    });
+
   }
-////////////////////////////////////////
-     /* 
-handleFile(event: any) {
-    const formData: FormData = new FormData();
-    console.log(event.target.files)
-
-     const files=event.target.files;
-     Array.from(files).forEach((file:any)=>{
-      this.files.push({ data: file, inProgress: false, progress: 0}); 
-       // formData.append(file.name ,file);
-      console.log(formData)
-    }) 
-
-} */
-
-
-
-
-/* 
-  onChange(){
-
-    if(this.fileUpload){
-      for (let index = 0; index < this.fileUpload.files.length; index++)  
-      {  
-       const file = this.fileUpload.files[index];  
-       this.files.push({ data: file, inProgress: false, progress: 0});  
-      }
-    }
-
-  } */
 
 
 
